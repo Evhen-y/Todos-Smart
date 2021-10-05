@@ -1,41 +1,36 @@
-import React, { useState, useEffect } from 'react'
-interface ITodos {
-    id: number;
-    text: string;
-    createAt: Date;
-    completed: boolean;
-
-}
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilteredTodos, getTodos } from '../../store/selectors';
+import {todosActions} from "../../store/actions"
 const Todos = () => {
-    const [todos, setTodos] = useState<ITodos[]>([
-        {
-            id: 1,
-            text: 'text 001',
-            createAt: new Date(),
-            completed: false
-        }
-    ])
+  const dispatch =useDispatch()
+  const filteredTodos = useSelector(getFilteredTodos());
+  const todos = useSelector(getTodos());
 
-    useEffect(() => {
-        setTodos((state) => state.concat([
-            {
-                id: 1,
-                text: 'text 002',
-                createAt: new Date(),
-                completed: false
-            },
-            {
-                id: 1,
-                text: 'text 003',
-                createAt: new Date(),
-                completed: false
-            },
-        ]))
-    }, [])
-        return (
-            <>{todos?.map(({ id, text }) => (<div key={id}>{text}</div>))}</>
-        )
-}
+  console.log('filteredTodos', filteredTodos);
+  console.log('todos', todos);
+
+  const handleChanch = (ev:any) => {
+    
+    dispatch(todosActions.TODOS_FILTER_SETTINGS.REQUEST({search:ev.target.value}, ()=>{
+      dispatch(todosActions.FETCH_TODOS.REQUEST({}))
+    }))
+  }
   
 
-export default Todos
+  return (
+    <>
+      <input type="text" onChange={handleChanch} />
+      
+      {filteredTodos?.map(({ id, text }) => (
+        <div key={id}>{text}</div>
+      ))}
+      
+      {todos?.map(({ id, text }) => (
+        <div key={id}>{text}</div>
+      ))}
+    </>
+  );
+};
+
+export default Todos;

@@ -14,10 +14,10 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "react-hooks"],
   rules: {
-    "no-console": ["error", { allow: ["info", "error"] }],
-    "@typescript-eslint/no-explicit-any": "error",
+    "no-console": ["warn", { allow: ["info", "warn"] }],
+    "@typescript-eslint/no-explicit-any": "warn",
     "react/prop-types": "off",
-    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
     "react/display-name": "off",
   },
